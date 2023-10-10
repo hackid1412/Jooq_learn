@@ -29,6 +29,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
         </dependency>
@@ -155,19 +160,23 @@
                     <generator>
                         <database>
                             <name>org.jooq.meta.mysql.MySQLDatabase</name>
-                            <includes>.*</includes>
+                            <includes>db_jooq_learn.*</includes>
                             <excludes></excludes>
                             <inputSchema></inputSchema>
                         </database>
                         <generate>
                             <pojos>true</pojos>
+                            <daos>true</daos>
+                            <springAnnotations>true</springAnnotations>
+                            <interfaces>true</interfaces>
+                            <immutableInterfaces>true</immutableInterfaces>
                             <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
                             <javaTimeTypes>true</javaTimeTypes>
                             <fluentSetters>true</fluentSetters>
                         </generate>
                         <target>
-                            <packageName>con.vn.jooq_learn</packageName>
-                            <directory> target/generated-sources/jooq</directory>
+                            <packageName></packageName>
+                            <directory></directory>
                         </target>
                     </generator>
                 </configuration>
