@@ -26,4 +26,19 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getListUsers() {
         return ResponseEntity.ok(userService.getListUsers());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUserById(@PathVariable Long id, @RequestBody UserDto userDto){
+        return ResponseEntity.ok(userService.updateUserById(id, userDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.deleteUserById(id));
+    }
 }

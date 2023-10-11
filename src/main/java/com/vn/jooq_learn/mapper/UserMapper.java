@@ -4,11 +4,15 @@ import com.vn.jooq_learn.dtos.UserDto;
 import com.vn.jooq_learn.entities.User;
 import org.jooq.generated.db_jooq_learn.tables.records.TblUsersRecord;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
+    // update an existing User from a UserDto
+    void updateUserFromDto(UserDto userDto, @MappingTarget User user); // jpa
 
     // mapping to dto
     UserDto userJpaToUserDto(User user);    // jpa

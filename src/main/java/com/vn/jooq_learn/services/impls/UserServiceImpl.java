@@ -7,7 +7,6 @@ import com.vn.jooq_learn.repositories.UserRepository;
 import com.vn.jooq_learn.services.UserService;
 import org.jooq.DSLContext;
 import org.jooq.generated.db_jooq_learn.Tables;
-import org.jooq.generated.db_jooq_learn.tables.TblUsers;
 import org.jooq.generated.db_jooq_learn.tables.records.TblUsersRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +21,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public User createUser(UserDto userDto) {
-        User newUser = UserMapper.INSTANCE.userDtoToUserJpa(userDto);
-//        newUser.setFirstName(userDto.getFirstName());
-//        newUser.setLastName(userDto.getLastName());
-//        newUser.setEmail(userDto.getEmail());
-//        newUser.setPassword(userDto.getPassword());
-
-
+        User newUser = userMapper.INSTANCE.userDtoToUserJpa(userDto);
         userRepository.save(newUser);
 
         return newUser;
@@ -41,7 +37,36 @@ public class UserServiceImpl implements UserService {
         return dslContext
                 .selectFrom(Tables.TBL_USERS)
                 .fetchInto(TblUsersRecord.class)
-                .stream().map(UserMapper.INSTANCE::userRecordToUserDto)
+                .stream().map(userMapper.INSTANCE::userRecordToUserDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+        UserDto userDto = userMapper.INSTANCE.userJpaToUserDto(user);
+        return userDto;
+    }
+
+    @Override
+    public UserDto updateUserById(Long id, UserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+        userDto.setId(id);
+        userMapper.INSTANCE.updateUserFromDto(userDto, user);
+        userRepository.save(user);
+        return userDto;
+    }
+
+    @Override
+    public String deleteUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+        userRepository.delete(user);
+        return "Delete user successfully";
     }
 }
