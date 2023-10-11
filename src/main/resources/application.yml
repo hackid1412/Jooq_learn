@@ -7,3 +7,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+jwt:
+  JWT_EXPIRATION: 86400 # 24 hours
+  JWT_SECRET_KEY: 7BPKL51/8VQQw+CLTD7cGek0AtWbrVyFyzRVSkaJb68=
+
+messages:
+  basename: i18n/messages
+  encoding: UTF-8
+

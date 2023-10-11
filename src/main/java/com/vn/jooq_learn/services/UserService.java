@@ -15,4 +15,6 @@ public interface UserService {
     UserDto updateUserById(Long id, UserDto userDto); // update user by id
 
     String deleteUserById(Long id); // delete user by id
+
+    String userLogin(String email, String password) throws Exception; // user login
 }
